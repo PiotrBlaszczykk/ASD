@@ -13,18 +13,13 @@ def dijkstry(G, start):
 
     while not Q.empty():
 
-        x = Q.get()
-        curr_dist = x[0]
-        curr_node = x[1]
+        curr_dist, curr_node = Q.get()
 
         if not visited[curr_node]:
 
             visited[curr_node] = True
 
-            for node in G[curr_node][0]:
-
-                neighbour = node[0]
-                d = node[1]
+            for neighbour, d in G[curr_node]:
 
                 if not visited[neighbour]:
 
@@ -33,11 +28,6 @@ def dijkstry(G, start):
                     if new_dist < D[neighbour]:
 
                         D[neighbour] = new_dist
-                        Q.put((D[neighbour], neighbour))
-
-    for i in range(n):
-
-        if D[i] == float('inf'):
-            D[i] = None
+                        Q.put((new_dist, neighbour))
 
     return D
