@@ -12,11 +12,11 @@ def convert_to_adjList(E):
             n = E[i][1]
 
     n += 1
-    G = [[[]] for _ in range(n)]
+    G = [[] for _ in range(n)]
 
     for i in range(len(E)):
 
-        G[E[i][0]][0].append((E[i][1], E[i][2]))
-        G[E[i][1]][0].append((E[i][0], E[i][2]))
+        G[E[i][0]].append((E[i][1], E[i][2]))
+        G[E[i][1]].append((E[i][0], E[i][2]))
 
     return G
