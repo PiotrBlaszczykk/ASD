@@ -1,7 +1,7 @@
 def dijkstry_path(G, start, end):
 
     #G - adj. list
-    #if end is not None, then algorithm stops after finding end and returns path to it
+    #if end is not None, then algorithm stops after finding end and returns path with it's length
     #if end is None, returns distance and parent array
     #if end is not None, retuens length and exact path to the end node
 
