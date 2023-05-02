@@ -1,3 +1,5 @@
+from queue import PriorityQueue
+
 def dijkstry_path(G, start, end):
 
     #G - adj. list
