@@ -11,7 +11,7 @@
 #Funkcja dodaj dodaje napis do mapy i od razu zwraca ile razy ten napis już wystąpił, oraz zarządza kolizjami gdy 2 lub
 #więcej napisów ottrzyma ten sam hasz
 #Złożoność pesymistyczna to O(N^2), jednakże szanse na to że się program "skwadraci" są bardzo małe, wymagałoby to
-#aby wszystkie napisy ottrzymały ten sam hasz i były różne. W praktyce złożonośc czasowa jest bliższa O(N), i działa
+#aby wszystkie napisy ottrzymały ten sam hasz i były różne W praktyce złożonośc czasowa jest bliższa O(N), i działa
 #szybciej niż przy sortowaniu. Złożoność pamięciowa to O(N)
 
 from zad3testy import runtests
