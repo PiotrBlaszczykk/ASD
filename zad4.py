@@ -12,7 +12,6 @@ from zad4testy import runtests
 
 def longer( G, s, t ):
 
-
     def BFS():
 
         n = len(G)
