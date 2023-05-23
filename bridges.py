@@ -6,14 +6,18 @@ def bridges(G):
     visited = [False for _ in range(n)]
     parent = [None for _ in range(n)]
     d = [float('inf') for _ in range(n)]
+    children = [[] for _ in range(n)]
     low = [None for _ in range(n)]
     time = 0
     B = []
 
+    parent[0] = 0
 
     def DFSVisit(node):
 
         nonlocal time
+        #print("odwiedzam node:", node, "time =", time)
+
 
         d[node] = time
         low[node] = time
@@ -23,11 +27,20 @@ def bridges(G):
 
         for neighbour in G[node]:
 
+            if visited[neighbour] and parent[node] != neighbour:
+
+                #print("sprawdzam krawdz wsteczna", node, neighbour)
+                low[node] = min(low[node], d[neighbour])
+                #print("low node", node, "to", low[node])
+
+        for neighbour in G[node]:
+
             if not visited[neighbour]:
                 parent[neighbour] = node
+                children[node].append(neighbour)
                 DFSVisit(neighbour)
-            elif parent[node] != neighbour:
-                low[node] = min(d[node], d[neighbour])
+                low[node] = min(low[node], low[neighbour])
+                #print("wracam z", neighbour, "low node", node, "to", low[node])
 
         if node != 0:
             low[parent[node]] = min(low[parent[node]], low[node])
@@ -44,27 +57,20 @@ def bridges(G):
         if not visited[node]:
             DFSVisit(node)
 
-    # print(low)
+    articulation_points = []
 
-    points = [0 for _ in range(n)]
-    breaking_points = []
+    if len(children[0]) > 1:
+        articulation_points.append(0)
 
-    for bridge in B:
+    for node in range(1, n):
 
-        u = bridge[0]
-        v = bridge[1]
+        for child in children[node]:
 
-        points[u] += 1
-        points[v] += 1
+            if low[child] >= d[node]:
 
-    for i in range(n):
+                articulation_points.append(node)
+                break
 
-        if points[i] != 0:
-
-            #(No of a node, amount of bridges that node is a part of)
-            breaking_points.append((i, points[i]))
-
-    # print(B)
-    # print(breaking_points)
-
+    #return low
+    #return articulation_points
     return B
