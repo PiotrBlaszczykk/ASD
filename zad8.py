@@ -66,7 +66,6 @@ def plan(T):
             rupa = zlicz_rope(i)
             plamy[i] = rupa
 
-
     postoje = 0
     d = 0
     Q = PriorityQueue()
@@ -89,7 +88,6 @@ def plan(T):
                 Q.put(plamy[d] * -1)
 
     return postoje
-
 
 # zmien all_tests na True zeby uruchomic wszystkie testy
 runtests( plan, all_tests = True )
