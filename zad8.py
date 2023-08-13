@@ -2,12 +2,12 @@
 #
 #Algorytm zachłanny. Najpierw zrobiłem funkcje pomocniczą "zlicz_rope", która oblicza objętość całej plamy.
 #zlicz_rope wykorzystuje do tego rekurencje. Jest to obliczeniowo "najcięższy" fragment algorytmu o złożoności O(m*n).
-#a efekcie mam tablice "plamy" o długości m, gdzie wartości różne od 0 to ile ropy można zebrać z miejsca na którym stoimy
+#w efekcie mam tablice "plamy" o długości m, gdzie wartości różne od 0 to ile ropy można zebrać z miejsca na którym stoimy
 #Teraz w sposób zachłanny "dojeżdżamy"  najdalej jak się przy zebranym paliwie. Jak zatrzymaliśmy się na polu d < m - 1,
 #to zbieramy największą możliwą plamę którą minęliśmy po drodze i jedziemy dalej aż dojedziemy do końca. W celu
 #zebrania największej minętej plamy, wtedy kiedy jedziemy i jesteśmy na kolejnych polach tablicy "plamy", to gdy napotkamy
 #jakąś plame to dodajemy ją do kolejki priorytetowej. Można o tym pomyśleć w ten sposób, że jedziemy najdalej jak się da,
-#a w momencie gdy skończy nam się paliwo to wysiadamy z cysterny i idziemy piszo po największą plamę jaką minęliśmy.
+#a w momencie gdy skończy nam się paliwo to wysiadamy z cysterny i idziemy pieszo po największą plamę jaką minęliśmy.
 #Złożoność czasowa programu to O(m*n)
 
 from zad8testy import runtests
