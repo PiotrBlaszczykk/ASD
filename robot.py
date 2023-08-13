@@ -3,21 +3,13 @@ from queue import PriorityQueue
 
 def robot(L, A, B):
 
-    inf = float('inf')
     wiersze = len(L)
     kolumny = len(L[0])
     Q = PriorityQueue()
 
-    blokada = [[False for _ in range(kolumny)] for _ in range(wiersze)]
-
-    for i in range(wiersze):
-        for j in range(kolumny):
-            if L[i][j] == "X":
-                blokada[i][j] = True
-
     #D: [ x ][ y ][ kierunek  ] = jak szybko sie poruszamy, im szybciej tym lepiej
     D = [[[-1 for _ in range(4)] for _ in range(kolumny)] for _ in range(wiersze)]
-    wynik = [inf]
+    wynik = [None]
 
     #kierunek: 0 - gora, 1 - prawo, 2 - dol, 3 - lewo
     #time, (x, y, kierunek, speed)
@@ -29,8 +21,14 @@ def robot(L, A, B):
         y = dane[1]
         kierunek = dane[2]
         speed = dane[3]
-        fast = None
 
+        if L[x][y] == "X":
+            return None
+        if x == B[1] and y == B[0]:
+            wynik[0] = time
+            return None
+
+        fast = None
         if speed == 60:
             fast = 0
             new_speed = 40
@@ -45,62 +43,35 @@ def robot(L, A, B):
             return None
         D[x][y][kierunek] = fast
 
+        if kierunek == 0 or kierunek == 2:
 
-        if x == B[1] and y == B[0]:
-            wynik[0] = time
+            Q.put((time + 45, (x, y, 1, 60)))
+            Q.put((time + 45, (x, y, 3, 60)))
 
-        if kierunek == 0:
-
-            if not blokada[x + 1][y]:
+            if kierunek == 0:
                 Q.put((time + speed, (x + 1, y, 0, new_speed)))
 
-            if not blokada[x][y + 1]:
-                Q.put((time + 45, (x, y, 1, 60)))
-
-            if not blokada[x][y - 1]:
-                Q.put((time + 45, (x, y, 3, 60)))
-
-        if kierunek == 1:
-
-            if not blokada[x][y + 1]:
-                Q.put((time + speed, (x, y + 1, 1, new_speed)))
-
-            if not blokada[x + 1][y]:
-                Q.put((time + 45, (x, y, 0, 60)))
-
-            if not blokada[x - 1][y]:
-                Q.put((time + 45, (x, y, 2, 60)))
-
-        if kierunek == 2:
-
-            if not blokada[x - 1][y]:
+            if kierunek == 2:
                 Q.put((time + speed, (x - 1, y, 2, new_speed)))
 
-            if not blokada[x][y + 1]:
-                Q.put((time + 45, (x, y, 1, 60)))
+        else:
 
-            if not blokada[x][y - 1]:
-                Q.put((time + 45, (x, y, 3, 60)))
+            Q.put((time + 45, (x, y, 0, 60)))
+            Q.put((time + 45, (x, y, 2, 60)))
 
-        if kierunek == 3:
+            if kierunek == 1:
+                Q.put((time + speed, (x, y + 1, 1, new_speed)))
 
-            if not blokada[x][y - 1]:
+            if kierunek == 3:
                 Q.put((time + speed, (x, y - 1, 3, new_speed)))
 
-            if not blokada[x + 1][y]:
-                Q.put((time + 45, (x, y, 0, 60)))
-
-            if not blokada[x - 1][y]:
-                Q.put((time + 45, (x, y, 2, 60)))
-
-        return None
 
     while not Q.empty():
 
         czas, dane = Q.get()
         licz(czas, dane)
 
-        if wynik[0] != inf:
+        if wynik[0] is not None:
             return wynik[0]
 
     return None
