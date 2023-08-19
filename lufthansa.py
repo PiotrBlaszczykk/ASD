@@ -1,29 +1,11 @@
 from egzP3btesty import runtests
 from queue import PriorityQueue
 
+
 def lufthansa(G):
+
     n = len(G)
-
-    E1 = []
-
-    for node in G:
-
-        for edge in node:
-            E1.append(edge[1])
-
-    E1.sort(reverse=True)
-    E = []
-
-    for i in range(len(E1) // 2):
-        E.append(E1[i * 2])
-
-    # print(E)
-
     start = 0
-
-    # Algorytm Prima
-    # G - adj list
-
     Q = PriorityQueue()
     parent = [None for _ in range(n)]
     D = [float('-inf') for _ in range(n)]
@@ -31,9 +13,14 @@ def lufthansa(G):
     visited = [False for _ in range(n)]
     suma = 0
 
-    najwieksza_krawedz = float('inf')
-
     Q.put((0, start))
+    total = 0
+
+    for node in G:
+        for edge in node:
+            total += edge[1]
+
+    total = total // 2
 
     while not Q.empty():
 
@@ -49,39 +36,26 @@ def lufthansa(G):
                     parent[neighbour] = curr_node
                     Q.put((-distance, neighbour))
 
-    # print(E)
-    # print(D)
+    for i in range(n):
+        suma += D[i]
 
-    D.sort(reverse=True)
+    extra = -1
 
-    n = 0
-    k = 0
-    wynik = 0
+    for i in range(n):
 
-    while n < len(E):
+        node = G[i]
 
-        while E[n] != D[k]:
+        for edge in node:
 
-            wynik += E[n]
-            n += 1
+            vertex = edge[0]
+            weight = edge[1]
 
-            if n == len(E):
-                break
+            if parent[i] != vertex and parent[vertex] != i:
+                if weight > extra:
+                    extra = weight
 
-        if n == len(E):
-            break
+    suma += extra
 
-        E[n] = 0
+    return total - suma
 
-        n += 1
-        k += 1
-        if k == len(D):
-            break
-
-    x = max(E)
-
-    wynik -= x
-
-    return wynik
-
-runtests ( lufthansa, all_tests=True )
+runtests ( lufthansa, all_tests= True )
