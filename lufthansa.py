@@ -1,5 +1,5 @@
+from egzP3btesty import runtests
 from queue import PriorityQueue
-
 
 def lufthansa(G):
     n = len(G)
@@ -83,3 +83,5 @@ def lufthansa(G):
     wynik -= x
 
     return wynik
+
+runtests ( lufthansa, all_tests=True )
