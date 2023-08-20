@@ -11,8 +11,7 @@ def Euler(G, start):
 
         for v in G[i]:
 
-            M[i][v[0]] = 1
-            M[v[0]][i] = 1
+            M[i][v] = 1
 
     parent = [None for _ in range(n)]
     cycle = []
