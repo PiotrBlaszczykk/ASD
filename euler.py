@@ -1,19 +1,15 @@
 def Euler(G, start):
 
     #G - adj. list
-
+    
     n = len(G)
     last_index = [0 for _ in range(n)]
-    n = len(G)
     M = [[0 for _ in range(n)] for _ in range(n)]
 
     for i in range(n):
-
         for v in G[i]:
-
             M[i][v] = 1
 
-    parent = [None for _ in range(n)]
     cycle = []
 
     def DFSVisit(node):
@@ -34,5 +30,4 @@ def Euler(G, start):
         cycle.append(node)
 
     DFSVisit(start)
-
     return cycle
