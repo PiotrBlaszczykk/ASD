@@ -1,20 +1,13 @@
 from egzP9btesty import runtests
 from queue import PriorityQueue
 
-
 def Euler(G, start):
 
 	#G - adj. list
 	#multigraf skierowany
-
+	#recursion-proof
 	n = len(G)
 	last_index = [0 for _ in range(n)]
-	M = [[0 for _ in range(n)] for _ in range(n)]
-
-	for i in range(n):
-		for v in G[i]:
-			M[i][v] += 1
-
 	cycle = []
 	Q = PriorityQueue()
 
@@ -22,18 +15,14 @@ def Euler(G, start):
 
 		last = last_index[node]
 		# print("wchodze do node", node, "zaczynam od", last)
+		if last < len(G[node]):
+			k = G[node][last]
+			last += 1
+			last_index[node] = last
+			Q.put((depth, node))
+			Q.put((depth - 1, k))
+			return None
 
-		for k in range(last, n):
-
-			if M[node][k] > 0:
-				M[node][k] -= 1
-				last = k
-				last_index[node] = last
-				Q.put((depth, node))
-				Q.put((depth - 1, k))
-				return None
-
-		last_index[node] = last
 		cycle.append(node)
 
 	Q.put((0, start))
@@ -46,14 +35,13 @@ def Euler(G, start):
 
 
 def dyrektor(G, R):
+	
 	n = len(G)
-
 	for i in range(n):
 		for v in R[i]:
 			G[i].remove(v)
 
 	cykl = Euler(G, 0)
 	return cykl
-
 
 runtests(dyrektor, all_tests=True)
