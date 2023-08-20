@@ -1,47 +1,57 @@
 from egzP9btesty import runtests
-from queue import PriorityQueue
+from collections import deque
 
 def Euler(G, start):
 
-	#G - adj. list
-	#multigraf skierowany
-	#recursion-proof
-	n = len(G)
-	last_index = [0 for _ in range(n)]
-	cycle = []
-	Q = PriorityQueue()
+    #G - adj. list
+    #multigraf skierowany
+    #recursion proof
+    n = len(G)
+    last_index = [0 for _ in range(n)]
+    out = [None for _ in range(n)]
+    cycle = []
 
-	def DFSVisit(depth, node):
+    for i in range(n):
+        out[i] = len(G[i])
 
-		last = last_index[node]
-		# print("wchodze do node", node, "zaczynam od", last)
-		if last < len(G[node]):
-			k = G[node][last]
-			last += 1
-			last_index[node] = last
-			Q.put((depth, node))
-			Q.put((depth - 1, k))
-			return None
+    Q = deque()
+    #print(G)
+    def DFSVisit(node):
 
-		cycle.append(node)
+        last = last_index[node]
+        #print("wchodze do node", node, "zaczynam od", last)
+        if out[node] != 0:
+            last = last_index[node]
+            v = G[node][last]
+            out[node] -= 1
+            last_index[node] += 1
+            Q.append(node)
+            Q.append(v)
+            return None
 
-	Q.put((0, start))
-	while not Q.empty():
-		depth, node = Q.get()
-		DFSVisit(depth, node)
+        last_index[node] = last
+        cycle.append(node)
+        #print("wychodze z node", node)
 
-	cycle.reverse()
-	return cycle
+    Q.append(start)
+    while not len(Q) == 0:
+        DFSVisit(Q.pop())
+
+    DFSVisit(start)
+    cycle.reverse()
+    cycle.pop(0)
+    return cycle
 
 
 def dyrektor(G, R):
-	
-	n = len(G)
-	for i in range(n):
-		for v in R[i]:
-			G[i].remove(v)
+    n = len(G)
 
-	cykl = Euler(G, 0)
-	return cykl
+    for i in range(n):
+        for v in R[i]:
+            G[i].remove(v)
+
+    cykl = Euler(G, 0)
+    return cykl
+
 
 runtests(dyrektor, all_tests=True)
