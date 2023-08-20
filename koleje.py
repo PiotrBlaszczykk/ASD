@@ -72,12 +72,22 @@ def koleje ( B ):
     n += 1
 
     G = [[] for _ in range(n)]
-    for u, v, in B:
+    pom = [[] for _ in range(n)]
 
-        if not u in G[v]:
-            G[v].append(u)
-        if not v in G[u]:
-            G[u].append(v)
+    for u, v in B:
+        pom[u].append(v)
+        pom[v].append(u)
+
+    for i in range(n):
+        pom[i].sort()
+
+    for i in range(n):
+
+        G[i].append(pom[i][0])
+        for j in range(1, len(pom[i])):
+
+            if pom[i][j] != G[i][-1]:
+                G[i].append(pom[i][j])
 
     return bridges(G)
 
