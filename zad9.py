@@ -16,9 +16,6 @@
 from zad9testy import runtests
 from queue import PriorityQueue
 
-def sus(x):
-    return x[0]
-
 def min_cost(O, C, T, L):
     inf = float('inf')
     n = len(O)
@@ -26,7 +23,7 @@ def min_cost(O, C, T, L):
     tab[0] = [0, 0, 0, 0]
     for i in range(n):
         tab[i + 1] = [O[i], C[i], None, None]
-    tab.sort(key=sus)
+    tab.sort(key = lambda x:x[0])
     tab.append([L, 0, inf, None, None])
     n += 2
 
